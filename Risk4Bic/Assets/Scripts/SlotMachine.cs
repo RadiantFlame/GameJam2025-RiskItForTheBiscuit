@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -6,30 +7,41 @@ public class SlotMachine : MonoBehaviour
 {
     public UnityEngine.UI.Image[] Slots;
     public Sprite[] Ingredients;
-    public UnityEngine.UI.Button SpinLever;
+
+    [SerializeField] private int Coins;
+    public TMP_Text CoinText;
 
     private void Start()
     {
-       // InvokeRepeating("DoThing", 1.0f, 0.1f);
+        Coins = 10;
+        
     }
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-       
+        CoinText.text = "Coins: " + Coins.ToString();
     }
 
-    public void SpinWheels()
+    public void FullSpin()
     {
-        for (int i = 0; i < Slots.Length; i++)
+        if (Coins > 0)
         {
-            Slots[i].sprite = Ingredients[Random.Range(0, 4)];
+            Coins += 2;
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                SpinWheel(i);
+            }
         }
     }
 
-    void DoThing()
+    public void SpinWheel(int WheelNo)
     {
-        for (int i = 0; i < Slots.Length; i++) {
-            Slots[i].sprite = Ingredients[Random.Range(0,4)];
+        if (Coins > 0)
+        {
+            Slots[WheelNo].sprite = Ingredients[Random.Range(0, 4)];
+            Coins -= 1;
         }
     }
+
 }
